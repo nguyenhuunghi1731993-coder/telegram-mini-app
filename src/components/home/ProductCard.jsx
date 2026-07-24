@@ -21,7 +21,6 @@ function ProductCard({ product }) {
 
   function openDetail() {
     if (!product?.id) return;
-
     navigate(`/detail/${product.id}`);
   }
 
@@ -65,12 +64,10 @@ function ProductCard({ product }) {
 
     let telegramUrl = String(product.telegram).trim();
 
-    // @username
     if (telegramUrl.startsWith("@")) {
       telegramUrl = `https://t.me/${telegramUrl.substring(1)}`;
     }
 
-    // username
     if (
       !telegramUrl.startsWith("http://") &&
       !telegramUrl.startsWith("https://")
@@ -99,11 +96,9 @@ function ProductCard({ product }) {
 
     try {
       await navigator.clipboard.writeText(wechatId);
-
       alert(`WeChat ID copied: ${wechatId}`);
     } catch (error) {
       console.error(error);
-
       alert(`WeChat ID: ${wechatId}`);
     }
   }
@@ -115,13 +110,7 @@ function ProductCard({ product }) {
   function handleFavorite(e) {
     e.preventDefault();
     e.stopPropagation();
-
-    // Favorite sẽ làm sau
   }
-
-  // =====================================================
-  // UI
-  // =====================================================
 
   return (
     <div
@@ -132,19 +121,20 @@ function ProductCard({ product }) {
       className="
         group
         w-full
+        min-w-0
         cursor-pointer
         overflow-hidden
-        rounded-2xl
+        rounded-xl
         border
         border-zinc-800
         bg-zinc-900/90
-        shadow-lg
+        shadow-md
         outline-none
         transition-all
         duration-300
-        hover:-translate-y-1
+        sm:rounded-2xl
+        sm:shadow-lg
         hover:border-red-500
-        hover:shadow-red-500/20
         focus:border-red-500
       "
     >
@@ -152,8 +142,7 @@ function ProductCard({ product }) {
           IMAGE
       ===================================================== */}
 
-      <div className="relative aspect-[4/5] overflow-hidden">
-
+      <div className="relative aspect-[4/5] w-full overflow-hidden">
         {product?.image ? (
           <img
             src={product.image}
@@ -168,12 +157,10 @@ function ProductCard({ product }) {
             "
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center bg-zinc-800 text-zinc-500">
+          <div className="flex h-full w-full items-center justify-center bg-zinc-800 text-xs text-zinc-500">
             No Image
           </div>
         )}
-
-        {/* IMAGE GRADIENT */}
 
         <div
           className="
@@ -187,37 +174,39 @@ function ProductCard({ product }) {
           "
         />
 
-        {/* =====================================================
-            ONLINE
-        ===================================================== */}
+        {/* ONLINE */}
 
         {product?.status && (
           <div
             className="
               absolute
-              left-3
-              top-3
+              left-1.5
+              top-1.5
               flex
               items-center
-              gap-1.5
+              gap-1
               rounded-full
               bg-emerald-500/90
-              px-2.5
+              px-1.5
               py-1
-              text-xs
+              text-[8px]
               font-semibold
               text-white
+
+              sm:left-3
+              sm:top-3
+              sm:gap-1.5
+              sm:px-2.5
+              sm:text-xs
             "
           >
-            <span className="h-2 w-2 rounded-full bg-white" />
+            <span className="h-1.5 w-1.5 rounded-full bg-white sm:h-2 sm:w-2" />
 
-            Online
+            <span>Online</span>
           </div>
         )}
 
-        {/* =====================================================
-            FAVORITE
-        ===================================================== */}
+        {/* FAVORITE */}
 
         <button
           type="button"
@@ -225,54 +214,61 @@ function ProductCard({ product }) {
           aria-label="Favorite"
           className="
             absolute
-            right-3
-            top-3
+            right-1.5
+            top-1.5
             z-10
             rounded-full
             bg-black/60
-            p-2.5
+            p-1.5
             backdrop-blur
             transition
             hover:bg-red-500
+
+            sm:right-3
+            sm:top-3
+            sm:p-2.5
           "
         >
-          <Heart className="h-5 w-5 text-white" />
+          <Heart className="h-3.5 w-3.5 text-white sm:h-5 sm:w-5" />
         </button>
 
-        {/* =====================================================
-            NEW + VIDEO
-        ===================================================== */}
+        {/* NEW / VIDEO */}
 
         {(product?.is_new || product?.has_video) && (
           <div
             className="
               absolute
-              bottom-3
-              left-3
+              bottom-1.5
+              left-1.5
               flex
               items-center
-              gap-2
+              gap-1
+
+              sm:bottom-3
+              sm:left-3
+              sm:gap-2
             "
           >
-            {/* NEW */}
-
             {product?.is_new && (
               <span
                 className="
-                  rounded-md
+                  rounded
                   bg-red-600
-                  px-2.5
-                  py-1
-                  text-xs
+                  px-1.5
+                  py-0.5
+                  text-[8px]
                   font-bold
                   text-white
+
+                  sm:rounded-md
+                  sm:px-2.5
+                  sm:py-1
+                  sm:text-xs
                 "
               >
                 NEW
               </span>
             )}
-
-            {/* VIDEO */}
 
             {product?.has_video && (
               <span
@@ -280,17 +276,22 @@ function ProductCard({ product }) {
                   flex
                   items-center
                   gap-1
-                  rounded-md
+                  rounded
                   bg-black/75
-                  px-2.5
-                  py-1
-                  text-xs
+                  px-1.5
+                  py-0.5
+                  text-[8px]
                   font-semibold
                   text-white
+
+                  sm:rounded-md
+                  sm:px-2.5
+                  sm:py-1
+                  sm:text-xs
                 "
               >
                 <Play
-                  className="h-3 w-3"
+                  className="h-2.5 w-2.5 sm:h-3 sm:w-3"
                   fill="white"
                 />
 
@@ -299,211 +300,222 @@ function ProductCard({ product }) {
             )}
           </div>
         )}
-
       </div>
 
       {/* =====================================================
           CONTENT
       ===================================================== */}
 
-      <div className="p-5 text-center">
+      <div className="p-2 text-center sm:p-5">
+        {/* CODE */}
 
-        {/* =====================================================
-            CODE + NAME + LOCATION
-        ===================================================== */}
+        <div
+          className="
+            truncate
+            text-[9px]
+            font-bold
+            uppercase
+            tracking-wider
+            text-red-500
 
-        <div className="relative">
+            sm:text-sm
+            sm:tracking-widest
+          "
+        >
+          {product?.code || "-"}
+        </div>
 
-          {/* CODE */}
+        {/* NAME */}
 
+        <h3
+          className="
+            mt-0.5
+            truncate
+            text-sm
+            font-bold
+            text-white
+            transition
+            group-hover:text-red-400
+
+            sm:mt-1
+            sm:text-2xl
+          "
+        >
+          {product?.name || "Unknown"}
+        </h3>
+
+        {/* LOCATION */}
+
+        <p
+          className="
+            mt-0.5
+            truncate
+            text-[10px]
+            text-zinc-400
+
+            sm:mt-1
+            sm:text-base
+          "
+        >
+          {product?.location || "-"}
+        </p>
+
+        {/* RATING */}
+
+        <div className="mt-1.5 flex justify-center sm:mt-2">
           <div
             className="
-              text-sm
-              font-bold
-              uppercase
-              tracking-widest
-              text-red-500
-            "
-          >
-            {product?.code || "-"}
-          </div>
-
-          {/* NAME */}
-
-          <h3
-            className="
-              mt-1
-              text-2xl
-              font-bold
-              text-white
-              transition
-              group-hover:text-red-400
-            "
-          >
-            {product?.name || "Unknown"}
-          </h3>
-
-          {/* LOCATION */}
-
-          <p className="mt-1 text-base text-zinc-400">
-            {product?.location || "-"}
-          </p>
-
-          {/* =====================================================
-              RATING
-          ===================================================== */}
-
-          <div
-            className="
-              absolute
-              right-0
-              top-0
               flex
               items-center
               gap-1
               rounded-full
               bg-zinc-800
-              px-3
-              py-1.5
+              px-1.5
+              py-0.5
+
+              sm:px-3
+              sm:py-1.5
             "
           >
             <Star
               className="
-                h-4
-                w-4
+                h-2.5
+                w-2.5
                 fill-yellow-400
                 text-yellow-400
+
+                sm:h-4
+                sm:w-4
               "
             />
 
-            <span className="text-sm font-semibold text-white">
+            <span className="text-[9px] font-semibold text-white sm:text-sm">
               4.9
             </span>
           </div>
-
         </div>
 
-        {/* =====================================================
-            AREA
-        ===================================================== */}
+        {/* AREA */}
 
         <div
           className="
-            mt-4
+            mt-2
             flex
+            min-w-0
             items-center
             justify-center
-            gap-2
-            text-base
+            gap-1
+            text-[10px]
             text-zinc-300
+
+            sm:mt-4
+            sm:gap-2
+            sm:text-base
           "
         >
-          <MapPin className="h-5 w-5 shrink-0 text-red-500" />
+          <MapPin className="h-3 w-3 shrink-0 text-red-500 sm:h-5 sm:w-5" />
 
-          <span>
+          <span className="truncate">
             {product?.area || "-"}
           </span>
         </div>
 
-        {/* =====================================================
-            AGE / HEIGHT / CUP
-        ===================================================== */}
+        {/* AGE / HEIGHT / CUP */}
 
         <div
           className="
-            mt-3
+            mt-1.5
             flex
-            flex-wrap
             items-center
             justify-center
-            text-base
+            whitespace-nowrap
+            text-[9px]
             text-zinc-300
+
+            sm:mt-3
+            sm:text-base
           "
         >
-          <span>
-            {product?.age ?? "-"} Years
-          </span>
+          <span>{product?.age ?? "-"} Years</span>
 
-          <span className="mx-2 text-zinc-600">
+          <span className="mx-1 text-zinc-600 sm:mx-2">
             •
           </span>
 
-          <span>
-            {product?.height ?? "-"} cm
-          </span>
+          <span>{product?.height ?? "-"} cm</span>
 
-          <span className="mx-2 text-zinc-600">
+          <span className="mx-1 text-zinc-600 sm:mx-2">
             •
           </span>
 
-          <span>
-            {product?.cup || "-"}
-          </span>
+          <span>{product?.cup || "-"}</span>
         </div>
 
-        {/* =====================================================
-            VIP + VERIFIED
-            ĐƯỢC ĐIỀU KHIỂN TỪ ADMIN
-        ===================================================== */}
+        {/* VIP / VERIFIED */}
 
         {(product?.is_vip || product?.is_verified) && (
           <div
             className="
-              mt-4
+              mt-2
               flex
               flex-wrap
               items-center
               justify-center
-              gap-2
+              gap-1
+
+              sm:mt-4
+              sm:gap-2
             "
           >
-
-            {/* VIP */}
-
             {product?.is_vip && (
               <span
                 className="
                   flex
                   items-center
-                  gap-1.5
+                  gap-1
                   rounded-full
                   bg-yellow-500/15
-                  px-3
-                  py-1.5
-                  text-sm
+                  px-1.5
+                  py-0.5
+                  text-[8px]
                   font-semibold
                   text-yellow-400
+
+                  sm:gap-1.5
+                  sm:px-3
+                  sm:py-1.5
+                  sm:text-sm
                 "
               >
-                <Crown className="h-4 w-4" />
-
+                <Crown className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                 VIP
               </span>
             )}
-
-            {/* VERIFIED */}
 
             {product?.is_verified && (
               <span
                 className="
                   flex
                   items-center
-                  gap-1.5
+                  gap-1
                   rounded-full
                   bg-emerald-500/15
-                  px-3
-                  py-1.5
-                  text-sm
+                  px-1.5
+                  py-0.5
+                  text-[8px]
                   font-semibold
                   text-emerald-400
+
+                  sm:gap-1.5
+                  sm:px-3
+                  sm:py-1.5
+                  sm:text-sm
                 "
               >
-                <ShieldCheck className="h-4 w-4" />
-
+                <ShieldCheck className="h-2.5 w-2.5 sm:h-4 sm:w-4" />
                 Verified
               </span>
             )}
-
           </div>
         )}
 
@@ -516,20 +528,26 @@ function ProductCard({ product }) {
           product?.wechat) && (
           <div
             className="
-              mt-5
+              mt-2.5
               border-t
               border-zinc-800
-              pt-4
+              pt-2
+
+              sm:mt-5
+              sm:pt-4
             "
           >
             <p
               className="
-                mb-3
-                text-sm
+                mb-1.5
+                text-[8px]
                 font-bold
                 uppercase
                 tracking-wider
                 text-zinc-500
+
+                sm:mb-3
+                sm:text-sm
               "
             >
               Contact
@@ -538,113 +556,136 @@ function ProductCard({ product }) {
             <div
               className="
                 flex
-                flex-wrap
                 items-center
                 justify-center
-                gap-2
+                gap-1
+
+                sm:flex-wrap
+                sm:gap-2
               "
             >
-
-              {/* =================================================
-                  WHATSAPP
-              ================================================= */}
+              {/* WHATSAPP */}
 
               {product?.whatsapp && (
                 <button
                   type="button"
                   onClick={handleWhatsApp}
+                  aria-label="WhatsApp"
+                  title="WhatsApp"
                   className="
                     flex
+                    h-8
+                    w-8
                     items-center
                     justify-center
-                    gap-2
-                    rounded-xl
+                    rounded-lg
                     border
                     border-emerald-500/30
                     bg-emerald-500/10
-                    px-4
-                    py-2.5
-                    text-sm
-                    font-semibold
                     text-emerald-400
                     transition
                     hover:bg-emerald-500
                     hover:text-white
+
+                    sm:h-auto
+                    sm:w-auto
+                    sm:gap-2
+                    sm:rounded-xl
+                    sm:px-4
+                    sm:py-2.5
+                    sm:text-sm
+                    sm:font-semibold
                   "
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <MessageCircle className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
 
-                  WhatsApp
+                  <span className="hidden sm:inline">
+                    WhatsApp
+                  </span>
                 </button>
               )}
 
-              {/* =================================================
-                  TELEGRAM
-              ================================================= */}
+              {/* TELEGRAM */}
 
               {product?.telegram && (
                 <button
                   type="button"
                   onClick={handleTelegram}
+                  aria-label="Telegram"
+                  title="Telegram"
                   className="
                     flex
+                    h-8
+                    w-8
                     items-center
                     justify-center
-                    gap-2
-                    rounded-xl
+                    rounded-lg
                     border
                     border-sky-500/30
                     bg-sky-500/10
-                    px-4
-                    py-2.5
-                    text-sm
-                    font-semibold
                     text-sky-400
                     transition
                     hover:bg-sky-500
                     hover:text-white
+
+                    sm:h-auto
+                    sm:w-auto
+                    sm:gap-2
+                    sm:rounded-xl
+                    sm:px-4
+                    sm:py-2.5
+                    sm:text-sm
+                    sm:font-semibold
                   "
                 >
-                  <Send className="h-4 w-4" />
+                  <Send className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
 
-                  Telegram
+                  <span className="hidden sm:inline">
+                    Telegram
+                  </span>
                 </button>
               )}
 
-              {/* =================================================
-                  WECHAT
-              ================================================= */}
+              {/* WECHAT */}
 
               {product?.wechat && (
                 <button
                   type="button"
                   onClick={handleWechat}
+                  aria-label="WeChat"
                   title={`WeChat: ${product.wechat}`}
                   className="
                     flex
+                    h-8
+                    w-8
                     items-center
                     justify-center
-                    gap-2
-                    rounded-xl
+                    rounded-lg
                     border
                     border-green-500/30
                     bg-green-500/10
-                    px-4
-                    py-2.5
-                    text-sm
-                    font-semibold
                     text-green-400
                     transition
                     hover:bg-green-500
                     hover:text-white
+
+                    sm:h-auto
+                    sm:w-auto
+                    sm:gap-2
+                    sm:rounded-xl
+                    sm:px-4
+                    sm:py-2.5
+                    sm:text-sm
+                    sm:font-semibold
                   "
                 >
-                  <Copy className="h-4 w-4" />
+                  <Copy className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
 
-                  WeChat
+                  <span className="hidden sm:inline">
+                    WeChat
+                  </span>
                 </button>
               )}
-
             </div>
           </div>
         )}
@@ -655,29 +696,34 @@ function ProductCard({ product }) {
 
         <div
           className="
-            mt-5
+            mt-2.5
             border-t
             border-zinc-800
-            pt-4
+            pt-2
             text-center
+
+            sm:mt-5
+            sm:pt-4
           "
         >
           <p
             className="
               break-words
-              text-2xl
+              text-sm
               font-bold
+              leading-tight
               text-red-500
+
+              sm:text-2xl
             "
           >
             {product?.price || "-"}
           </p>
 
-          <p className="mt-1 text-sm text-zinc-500">
+          <p className="mt-0.5 text-[8px] text-zinc-500 sm:mt-1 sm:text-sm">
             Starting Price
           </p>
         </div>
-
       </div>
     </div>
   );
