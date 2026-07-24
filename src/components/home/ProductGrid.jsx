@@ -2,12 +2,11 @@ import ProductCard from "./ProductCard";
 
 function ProductGrid({ products }) {
   return (
-    <div className="grid grid-cols-3 gap-2">
+    <div className="w-full grid grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
       {products.map((product) => (
-        <ProductCard
-          key={product.id}
-          product={product}
-        />
+        <div key={product.id} className="min-w-0">
+          <ProductCard product={product} />
+        </div>
       ))}
     </div>
   );
