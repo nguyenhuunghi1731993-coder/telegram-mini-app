@@ -14,32 +14,53 @@ import EmptyState from "../components/common/EmptyState";
 function Home() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
-
   const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-useEffect(() => {
+  // ============================================
+  // LOAD DATA FROM SUPABASE
+  // ============================================
+
+  useEffect(() => {
     async function loadGirls() {
+      try {
+        setLoading(true);
+
         const data = await getGirls();
-        setProducts(data);
+
+        setProducts(Array.isArray(data) ? data : []);
+      } catch (error) {
+        console.error("Failed to load profiles:", error);
+        setProducts([]);
+      } finally {
+        setLoading(false);
+      }
     }
 
     loadGirls();
-}, []);
-  
+  }, []);
+
+  // ============================================
+  // SEARCH + CATEGORY FILTER
+  // ============================================
+
   const filteredProducts = useMemo(() => {
     const keyword = search.trim().toLowerCase();
 
     return products.filter((item) => {
-      // Tìm theo tên, tên tiếng Trung, mã, khu vực
+      const name = String(item?.name || "").toLowerCase();
+      const code = String(item?.code || "").toLowerCase();
+      const area = String(item?.area || "").toLowerCase();
+
       const matchSearch =
         keyword === "" ||
-        item.name.toLowerCase().includes(keyword) ||
-        item.code.toLowerCase().includes(keyword) ||
-        item.area.toLowerCase().includes(keyword);
+        name.includes(keyword) ||
+        code.includes(keyword) ||
+        area.includes(keyword);
 
-      // Lọc theo Category
       const matchCategory =
-        category === "All" || item.area === category;
+        category === "All" ||
+        String(item?.area || "") === category;
 
       return matchSearch && matchCategory;
     });
@@ -49,32 +70,44 @@ useEffect(() => {
     <MainLayout>
       <Header />
 
-      <main className="pb-12">
-        <SearchBar
-          value={search}
-          onChange={setSearch}
-        />
+      <main className="pb-16">
+        {/* SEARCH + CATEGORY */}
 
-        <CategoryMenu
-          activeCategory={category}
-          setActiveCategory={setCategory}
-        />
+        <div className="w-full">
+          <SearchBar
+            value={search}
+            onChange={setSearch}
+          />
 
-        <SectionTitle
-          title="Featured Girls"
-          subtitle={
-            category === "All"
-              ? "Showing all verified profiles"
-              : `${category} Area`
-          }
-          count={filteredProducts.length}
-        />
+          <CategoryMenu
+            activeCategory={category}
+            setActiveCategory={setCategory}
+          />
 
-        {filteredProducts.length > 0 ? (
-          <ProductGrid products={filteredProducts} />
-        ) : (
-          <EmptyState />
-        )}
+          {/* SECTION TITLE */}
+
+          <SectionTitle
+            title="Featured Girls"
+            subtitle={
+              category === "All"
+                ? "Showing all verified profiles"
+                : `${category} Area`
+            }
+            count={filteredProducts.length}
+          />
+
+          {/* PRODUCTS */}
+
+          {loading ? (
+            <div className="py-16 text-center text-zinc-500">
+              Loading profiles...
+            </div>
+          ) : filteredProducts.length > 0 ? (
+            <ProductGrid products={filteredProducts} />
+          ) : (
+            <EmptyState />
+          )}
+        </div>
       </main>
     </MainLayout>
   );
