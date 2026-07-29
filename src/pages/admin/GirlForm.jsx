@@ -39,6 +39,7 @@ export default function GirlForm({ mode = "add" }) {
     available_time: "",
     availability_status: "available_now",
     status_message: "",
+    show_schedule: false,
 
     whatsapp: "",
     telegram: "",
@@ -87,6 +88,9 @@ export default function GirlForm({ mode = "add" }) {
         age: girl.age ?? "",
         height: girl.height ?? "",
         weight: girl.weight ?? "",
+
+        show_schedule:
+          girl.show_schedule ?? false,
 
         cup: girl.cup || "",
 
@@ -207,6 +211,9 @@ export default function GirlForm({ mode = "add" }) {
       const payload = {
         code: form.code.trim(),
         name: form.name.trim(),
+        
+        show_schedule:
+          form.show_schedule,
 
         age:
           form.age === ""
@@ -503,33 +510,37 @@ export default function GirlForm({ mode = "add" }) {
 </div>
 
 {/* Available Status */}
-<div>
-  <label className="mb-1 block text-sm text-zinc-400">
-    Available Status
-  </label>
+{form.status_message.trim().toLowerCase() === "available from" && (
+  <>
+    <div>
+      <label className="mb-1 block text-sm text-zinc-400">
+        Available Date
+      </label>
 
-  <input
-    name="status_message"
-    value={form.status_message || ""}
-    onChange={handleChange}
-    placeholder="Available Now / Busy / Booked / VIP Tonight..."
-    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-  />
-</div>
+      <input
+        type="date"
+        name="available_date"
+        value={form.available_date || ""}
+        onChange={handleChange}
+        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+      />
+    </div>
 
-<div>
-  <label className="mb-1 block text-sm text-zinc-400">
-    Available Date
-  </label>
+    <div>
+      <label className="mb-1 block text-sm text-zinc-400">
+        Available Time
+      </label>
 
-              <input
-                type="date"
-                name="available_date"
-                value={form.available_date || ""}
-                onChange={handleChange}
-                className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-              />
-            </div>
+      <input
+        type="time"
+        name="available_time"
+        value={form.available_time || ""}
+        onChange={handleChange}
+        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+      />
+    </div>
+  </>
+)}
 
             <div>
               <label className="mb-1 block text-sm text-zinc-400">
