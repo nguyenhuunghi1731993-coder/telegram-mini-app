@@ -37,6 +37,8 @@ export default function GirlForm({ mode = "add" }) {
     price: "",
     available_date: "",
     available_time: "",
+    availability_status: "available_now",
+    status_message: "",
 
     whatsapp: "",
     telegram: "",
@@ -91,7 +93,12 @@ export default function GirlForm({ mode = "add" }) {
         area: girl.area || "",
         location: girl.location || "",
 
+        status_message:
+          girl.status_message || "",
+
         price: girl.price || "",
+        availability_status:
+          girl.availability_status || "available_now",
         available_date: girl.available_date || "",
         available_time: girl.available_time
          ? girl.available_time.substring(0, 5)
@@ -222,6 +229,10 @@ export default function GirlForm({ mode = "add" }) {
         location: form.location,
 
         price: form.price,
+        availability_status:
+          form.availability_status,
+        status_message:
+          form.status_message || null,  
         available_date:
           form.available_date || null,
 
