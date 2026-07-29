@@ -35,6 +35,7 @@ export default function GirlForm({ mode = "add" }) {
     location: "",
 
     price: "",
+    status_message: "",
     telegram_start: "",
 
     whatsapp: "",
@@ -91,6 +92,7 @@ export default function GirlForm({ mode = "add" }) {
         location: girl.location || "",
 
         price: girl.price || "",
+        status_message: girl.status_message || "",
         telegram_start: girl.telegram_start || "",
 
         whatsapp: girl.whatsapp || "",
@@ -218,6 +220,7 @@ export default function GirlForm({ mode = "add" }) {
         location: form.location,
 
         price: form.price,
+        status_message: form.status_message?.trim() || null,
 
         telegram_start:
           form.telegram_start?.trim() || null,
@@ -478,7 +481,24 @@ export default function GirlForm({ mode = "add" }) {
             placeholder="Price"
             className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
           />
-
+          <textarea
+            name="status_message"
+            value={form.status_message}
+            onChange={handleChange}
+            rows={3}
+            placeholder="Status Message"
+            className="
+             w-full
+            rounded-lg
+              border
+              border-zinc-800
+              bg-zinc-900
+              p-3
+              outline-none
+              focus:border-yellow-500
+              resize-none
+            "
+          />
           <input
             name="telegram_start"
             value={form.telegram_start}

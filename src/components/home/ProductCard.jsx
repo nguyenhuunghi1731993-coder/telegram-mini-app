@@ -752,8 +752,13 @@ function ProductCard({ product }) {
             {product?.price || "-"}
           </p>
 
-          <p className="mt-0.5 text-[8px] text-zinc-500 sm:mt-1 sm:text-sm">
-            Starting Price
+          <p className="
+          mt-0.5 
+          whitespace-pre-line
+          break-words
+          text-[8px] 
+          text-zinc-500 sm:mt-1 sm:text-sm">
+          {product?.status_message || "Starting Price"}  
           </p>
         </div>
       </div>
