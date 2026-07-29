@@ -211,7 +211,6 @@ export default function GirlForm({ mode = "add" }) {
       const payload = {
         code: form.code.trim(),
         name: form.name.trim(),
-
         show_schedule:
           form.show_schedule,
 
@@ -493,36 +492,24 @@ export default function GirlForm({ mode = "add" }) {
           Booking Information
         </h2>
 
-        <div className="space-y-4">        
+        <div className="space-y-4">
 
-{/* Available Status */}
-<div>
+          <div>
   <label className="mb-1 block text-sm text-zinc-400">
-    Available Status
+    Price
   </label>
 
   <input
-    name="status_message"
-    value={form.status_message}
+    name="price"
+    value={form.price}
     onChange={handleChange}
-    placeholder="Busy / Available From / Booked..."
+    placeholder="150"
     className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
   />
 </div>
-<div className="flex items-center gap-3">
-  <input
-    type="checkbox"
-    name="show_schedule"
-    checked={form.show_schedule}
-    onChange={handleChange}
-    className="h-4 w-4 rounded border-zinc-700"
-  />
 
-  <label className="text-sm text-zinc-300">
-    Show Available Date & Time
-  </label>
-</div>
-{form.show_schedule && (
+{/* Available Status */}
+{form.status_message.trim().toLowerCase() === "available from" && (
   <>
     <div>
       <label className="mb-1 block text-sm text-zinc-400">
@@ -538,6 +525,19 @@ export default function GirlForm({ mode = "add" }) {
       />
     </div>
 
+    <div>
+      <label className="mb-1 block text-sm text-zinc-400">
+        Available Time
+      </label>
+
+      <input
+        type="time"
+        name="available_time"
+        value={form.available_time || ""}
+        onChange={handleChange}
+        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+      />
+    </div>
   </>
 )}
 
