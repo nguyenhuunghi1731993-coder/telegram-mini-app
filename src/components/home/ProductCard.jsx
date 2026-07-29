@@ -808,23 +808,6 @@ function formatTime(time) {
     </div>
   )}
 </div>
-
-          <div
-            className="
-              mt-1
-              text-[8px]
-              text-zinc-500
-              sm:text-sm
-            "
->
-  {product?.available_time && (
-    <p>{formatTime(product.available_time)}</p>
-  )}
-
-  {product?.available_date && (
-    <p>{formatDate(product.available_date)}</p>
-  )}
-</div>
         </div>
       </div>
     
