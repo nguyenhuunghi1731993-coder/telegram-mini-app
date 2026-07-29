@@ -489,23 +489,38 @@ export default function GirlForm({ mode = "add" }) {
         <div className="space-y-4">
 
           <div>
-            <label className="mb-1 block text-sm text-zinc-400">
-              Price
-            </label>
+  <label className="mb-1 block text-sm text-zinc-400">
+    Price
+  </label>
 
-            <input
-               name="price"
-              value={form.price}
-              onChange={handleChange}
-              placeholder="150"
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-            />
-            </div>
+  <input
+    name="price"
+    value={form.price}
+    onChange={handleChange}
+    placeholder="150"
+    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+  />
+</div>
 
-            <div>
-              <label className="mb-1 block text-sm text-zinc-400">
-                Available Date
-              </label>
+{/* Available Status */}
+<div>
+  <label className="mb-1 block text-sm text-zinc-400">
+    Available Status
+  </label>
+
+  <input
+    name="status_message"
+    value={form.status_message || ""}
+    onChange={handleChange}
+    placeholder="Available Now / Busy / Booked / VIP Tonight..."
+    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+  />
+</div>
+
+<div>
+  <label className="mb-1 block text-sm text-zinc-400">
+    Available Date
+  </label>
 
               <input
                 type="date"
