@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 import {
   Heart,
+  Eye,
   MapPin,
   Play,
   ShieldCheck,
@@ -362,63 +363,94 @@ function ProductCard({ product }) {
 
         {/* RATING */}
 
-        <div className="mt-1.5 flex justify-center sm:mt-2">
-          <div
-            className="
-              flex
-              items-center
-              gap-1
-              rounded-full
-              bg-zinc-800
-              px-1.5
-              py-0.5
+        {/* RATING + VIEW + LIKE + AREA */}
 
-              sm:px-3
-              sm:py-1.5
-            "
-          >
-            <Star
-              className="
-                h-2.5
-                w-2.5
-                fill-yellow-400
-                text-yellow-400
+<div
+  className="
+    mt-2
+    flex
+    flex-wrap
+    items-center
+    justify-center
+    gap-3
 
-                sm:h-4
-                sm:w-4
-              "
-            />
+    text-[9px]
 
-            <span className="text-[9px] font-semibold text-white sm:text-sm">
-              4.9
-            </span>
-          </div>
-        </div>
+    sm:mt-3
+    sm:gap-5
+    sm:text-sm
+  "
+>
+  {/* Rating */}
 
-        {/* AREA */}
+  <div className="flex items-center gap-1">
+    <Star
+      className="
+        h-3
+        w-3
+        fill-yellow-400
+        text-yellow-400
 
-        <div
-          className="
-            mt-2
-            flex
-            min-w-0
-            items-center
-            justify-center
-            gap-1
-            text-[10px]
-            text-zinc-300
+        sm:h-4
+        sm:w-4
+      "
+    />
 
-            sm:mt-4
-            sm:gap-2
-            sm:text-base
-          "
-        >
-          <MapPin className="h-3 w-3 shrink-0 text-red-500 sm:h-5 sm:w-5" />
+    <span className="font-semibold text-white">
+      4.9
+    </span>
+  </div>
 
-          <span className="truncate">
-            {product?.area || "-"}
-          </span>
-        </div>
+  {/* Views */}
+
+  <div className="flex items-center gap-1 text-zinc-400">
+    <Eye
+      className="
+        h-3
+        w-3
+
+        sm:h-4
+        sm:w-4
+      "
+    />
+
+    <span>2.4K</span>
+  </div>
+
+  {/* Likes */}
+
+  <div className="flex items-center gap-1 text-red-400">
+    <Heart
+      className="
+        h-3
+        w-3
+        fill-current
+
+        sm:h-4
+        sm:w-4
+      "
+    />
+
+    <span>186</span>
+  </div>
+
+  {/* Area */}
+
+  <div className="flex items-center gap-1 text-zinc-300">
+    <MapPin
+      className="
+        h-3
+        w-3
+        text-red-500
+
+        sm:h-4
+        sm:w-4
+      "
+    />
+
+    <span>{product?.area || "-"}</span>
+  </div>
+</div>
 
         {/* AGE / HEIGHT / CUP */}
 
