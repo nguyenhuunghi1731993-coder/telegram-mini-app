@@ -15,6 +15,32 @@ import {
 
 function ProductCard({ product }) {
   const navigate = useNavigate();
+  function formatDate(date) {
+    if (!date) return "";
+
+    return new Date(date).toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+  });
+}
+
+function formatTime(time) {
+  if (!time) return "";
+
+  const [hour, minute] = time.split(":");
+
+  const date = new Date();
+  date.setHours(hour);
+  date.setMinutes(minute);
+
+  return date.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
+  
 
   // =====================================================
   // OPEN DETAIL
@@ -737,32 +763,71 @@ function ProductCard({ product }) {
             sm:mt-5
             sm:pt-4
           "
-        >
-          <p
+>
+        <p
+          className="
+            break-words
+            text-sm
+            font-bold
+            leading-tight
+            text-red-500
+
+            sm:text-2xl
+          "
+  >
+    {product?.price || "-"}
+  </p>
+
+  {(product?.available_date || product?.available_time) && (
+    <div
+      className="
+        mt-1
+        space-y-1
+        text-[8px]
+        text-zinc-400
+
+        sm:mt-2
+        sm:text-sm
+      "
+    >
+      <p className="font-semibold text-zinc-300">
+        Available
+      </p>
+
+      {product?.available_time && (
+        <p>
+          🕒 {formatTime(product.available_time)}
+        </p>
+      )}
+
+      {product?.available_date && (
+        <p>
+          📅 {formatDate(product.available_date)}
+        </p>
+      )}
+    </div>
+  )}
+</div>
+
+          <div
             className="
-              break-words
-              text-sm
-              font-bold
-              leading-tight
-              text-red-500
-
-              sm:text-2xl
+              mt-1
+              text-[8px]
+              text-zinc-500
+              sm:text-sm
             "
-          >
-            {product?.price || "-"}
-          </p>
+>
+  {product?.available_time && (
+    <p>{formatTime(product.available_time)}</p>
+  )}
 
-          <p className="
-          mt-0.5 
-          whitespace-pre-line
-          break-words
-          text-[8px] 
-          text-zinc-500 sm:mt-1 sm:text-sm">
-          {product?.status_message || "Starting Price"}  
-          </p>
+  {product?.available_date && (
+    <p>{formatDate(product.available_date)}</p>
+  )}
+</div>
         </div>
       </div>
-    </div>
+    
   );
 }
 

@@ -26,6 +26,31 @@ function Detail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currentImage, setCurrentImage] = useState(0);
+  function formatDate(date) {
+  if (!date) return "";
+
+  return new Date(date).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function formatTime(time) {
+  if (!time) return "";
+
+  const [hour, minute] = time.split(":");
+
+  const d = new Date();
+  d.setHours(Number(hour));
+  d.setMinutes(Number(minute));
+
+  return d.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
+}
 
   // =====================================================
   // LOAD GIRL FROM SUPABASE
@@ -720,6 +745,21 @@ function Detail() {
               >
                 {product.price || "-"}
               </h2>
+              {(product.available_date || product.available_time) && (
+                <div className="mt-4 space-y-2 text-white/90">
+                  <p className="font-semibold text-white">
+                  Available
+                </p>
+
+            {product.available_time && (
+                <p>🕒 {formatTime(product.available_time)}</p>
+              )}
+
+              {product.available_date && (
+                <p>📅 {formatDate(product.available_date)}</p>
+               )}
+            </div>
+          )}
             </div>
 
             {/* =====================================================

@@ -35,8 +35,8 @@ export default function GirlForm({ mode = "add" }) {
     location: "",
 
     price: "",
-    status_message: "",
-    telegram_start: "",
+    available_date: "",
+    available_time: "",
 
     whatsapp: "",
     telegram: "",
@@ -92,8 +92,10 @@ export default function GirlForm({ mode = "add" }) {
         location: girl.location || "",
 
         price: girl.price || "",
-        status_message: girl.status_message || "",
-        telegram_start: girl.telegram_start || "",
+        available_date: girl.available_date || "",
+        available_time: girl.available_time
+         ? girl.available_time.substring(0, 5)
+        : "",
 
         whatsapp: girl.whatsapp || "",
         telegram: girl.telegram || "",
@@ -220,10 +222,11 @@ export default function GirlForm({ mode = "add" }) {
         location: form.location,
 
         price: form.price,
-        status_message: form.status_message?.trim() || null,
+        available_date:
+          form.available_date || null,
 
-        telegram_start:
-          form.telegram_start?.trim() || null,
+        available_time:
+          form.available_time || null,
 
         whatsapp:
           form.whatsapp?.trim() || null,
@@ -474,48 +477,49 @@ export default function GirlForm({ mode = "add" }) {
 
         <div className="space-y-4">
 
-          <input
-            name="price"
-            value={form.price}
-            onChange={handleChange}
-            placeholder="Price"
-            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-          />
-          <textarea
-            name="status_message"
-            value={form.status_message}
-            onChange={handleChange}
-            rows={3}
-            placeholder="Status Message"
-            className="
-             w-full
-            rounded-lg
-              border
-              border-zinc-800
-              bg-zinc-900
-              p-3
-              outline-none
-              focus:border-yellow-500
-              resize-none
-            "
-          />
-          <input
-            name="telegram_start"
-            value={form.telegram_start}
-            onChange={handleChange}
-            placeholder="Telegram Start"
-            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-          />
+          <div>
+            <label className="mb-1 block text-sm text-zinc-400">
+              Price
+            </label>
 
-          <input
-            type="date"
-            name="date"
-            value={form.date || ""}
-            onChange={handleChange}
-            className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-          />
+            <input
+               name="price"
+              value={form.price}
+              onChange={handleChange}
+              placeholder="150"
+              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+            />
+            </div>
 
-        </div>
+            <div>
+              <label className="mb-1 block text-sm text-zinc-400">
+                Available Date
+              </label>
+
+              <input
+                type="date"
+                name="available_date"
+                value={form.available_date || ""}
+                onChange={handleChange}
+                className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+              />
+            </div>
+
+            <div>
+              <label className="mb-1 block text-sm text-zinc-400">
+                Available Time
+              </label>
+
+            <input
+              type="time"
+              name="available_time"
+              value={form.available_time || ""}
+              onChange={handleChange}
+              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+             />
+          </div>
+
+      </div>
 
       </section>
 
