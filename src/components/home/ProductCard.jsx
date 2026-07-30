@@ -138,7 +138,18 @@ function formatTime(time) {
     e.preventDefault();
     e.stopPropagation();
   }
-
+  const bookingStatus =
+  product?.is_busy
+    ? "🔴 Busy"
+    : product?.only_incall
+    ? "🏠 Only Incall"
+    : product?.only_outcall
+    ? "🚗 Only Outcall"
+    : product?.is_available_from
+    ? "🕒 Available From"
+    : product?.is_available
+    ? "🟢 Available"
+    : "";
   return (
     <div
       onClick={openDetail}
@@ -789,11 +800,17 @@ function formatTime(time) {
     sm:text-sm
   "
 >
-  {product?.status_message && (
-    <p className="font-semibold text-zinc-300">
-      {product.status_message}
-    </p>
-  )}
+{bookingStatus && (
+  <p className="font-bold text-red-500">
+    {bookingStatus}
+  </p>
+)}
+
+{product?.status_message && (
+  <p className="font-semibold text-zinc-300">
+    {product.status_message}
+  </p>
+)}
 
   {product?.show_schedule && (
     <>
@@ -810,12 +827,11 @@ function formatTime(time) {
       )}
     </>
   )}
-</div>
-</div>
-        </div>
+   </div>
       </div>
-    
-  );
-}
+    </div>
+  </div> 
+       );
+       }
 
 export default ProductCard;

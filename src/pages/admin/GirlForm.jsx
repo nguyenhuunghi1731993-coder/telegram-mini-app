@@ -38,6 +38,7 @@ export default function GirlForm({ mode = "add" }) {
     cup: "",
     area: "",
     location: "",
+    display_status: "",
 
     price: "",
     available_date: "",
@@ -92,6 +93,7 @@ export default function GirlForm({ mode = "add" }) {
         is_available_from: girl.is_available_from ?? false,
         only_outcall: girl.only_outcall ?? false,
         only_incall: girl.only_incall ?? false,
+        display_status: girl.display_status || "",
         code: girl.code || "",
         name: girl.name || "",
 
@@ -223,7 +225,8 @@ export default function GirlForm({ mode = "add" }) {
       is_busy: form.is_busy,
       is_available_from: form.is_available_from,
       only_outcall: form.only_outcall,
-      only_incall: form.only_incall,  
+      only_incall: form.only_incall, 
+      display_status: form.display_status, 
 
         code: form.code.trim(),
         name: form.name.trim(),
@@ -564,6 +567,7 @@ Booking Status
       ...prev,
       is_available: !prev.is_available,
       is_busy: false,
+      display_status: !prev.is_available ? "Available" : "",
 
       // Nếu tắt Available thì tắt luôn Available From
       is_available_from: !prev.is_available
@@ -590,15 +594,15 @@ setForm(prev=>({
 
 ...prev,
 
-is_busy:!prev.is_busy,
+  is_busy: !prev.is_busy,
+  is_available: false,
+  is_available_from: false,
 
-is_available:false,
+  display_status: "Busy",
 
-is_available_from:false,
-
-show_schedule: false,
-available_date: "",
-available_time: "",
+  show_schedule: false,
+  available_date: "",
+  available_time: "",
 
 }))
 }}
@@ -612,18 +616,19 @@ Busy
 icon="🕒"
 color="bg-blue-600"
 active={form.is_available_from}
-onClick={()=>{
-setForm(prev=>({
+onClick={() => {
+  setForm(prev => ({
+    ...prev,
 
-...prev,
+    is_available_from: !prev.is_available_from,
+    is_available: true,
+    is_busy: false,
 
-is_available_from:!prev.is_available_from,
+    display_status: !prev.is_available_from
+      ? "Available From"
+      : "Available",
 
-is_available:true,
-
-is_busy:false,
-
-show_schedule:true
+    show_schedule: true,
 
 }))
 }}
@@ -637,16 +642,17 @@ Available From
 icon="🚗"
 color="bg-orange-500"
 active={form.only_outcall}
-onClick={()=>{
-setForm(prev=>({
+onClick={() => {
+  setForm(prev => ({
+    ...prev,
 
-...prev,
+    only_outcall: !prev.only_outcall,
+    only_incall: false,
+    is_busy: false,
 
-only_outcall: !prev.only_outcall,
-
-only_incall: false,
-
-is_busy: false,
+    display_status: !prev.only_outcall
+      ? "Only Outcall"
+      : "",
 
 }))
 }}
@@ -660,18 +666,17 @@ Only Outcall
 icon="🏠"
 color="bg-purple-600"
 active={form.only_incall}
-onClick={()=>{
-setForm(prev=>({
+onClick={() => {
+  setForm(prev => ({
+    ...prev,
 
-...prev,
+    only_incall: !prev.only_incall,
+    only_outcall: false,
+    is_busy: false,
 
-only_incall:!prev.only_incall,
-
-only_incall: !prev.only_incall,
-
-only_outcall: false,
-
-is_busy: false,
+    display_status: !prev.only_incall
+      ? "Only Incall"
+      : "",
 
 }))
 }}
