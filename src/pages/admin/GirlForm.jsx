@@ -25,6 +25,11 @@ export default function GirlForm({ mode = "add" }) {
   // =========================
 
   const [form, setForm] = useState({
+    is_available: false,
+    is_busy: false,
+    is_available_from: false,
+    only_outcall: false,
+    only_incall: false,
     code: "",
     name: "",
     age: "",
@@ -82,6 +87,11 @@ export default function GirlForm({ mode = "add" }) {
       }
 
       setForm({
+        is_available: girl.is_available ?? false,
+        is_busy: girl.is_busy ?? false,
+        is_available_from: girl.is_available_from ?? false,
+        only_outcall: girl.only_outcall ?? false,
+        only_incall: girl.only_incall ?? false,
         code: girl.code || "",
         name: girl.name || "",
 
@@ -209,6 +219,12 @@ export default function GirlForm({ mode = "add" }) {
       setSaving(true);
 
       const payload = {
+      is_available: form.is_available,
+      is_busy: form.is_busy,
+      is_available_from: form.is_available_from,
+      only_outcall: form.only_outcall,
+      only_incall: form.only_incall,  
+
         code: form.code.trim(),
         name: form.name.trim(),
         show_schedule:
@@ -321,7 +337,27 @@ export default function GirlForm({ mode = "add" }) {
   // =========================
   // UI
   // =========================
-
+  const StatusButton = ({
+  active,
+  color,
+  icon,
+  children,
+  onClick,
+}) => (
+  <button
+    type="button"
+    onClick={onClick}
+    className={`rounded-xl border px-4 py-2 font-medium transition-all duration-200
+    ${
+      active
+        ? `${color} border-transparent text-white`
+        : "border-zinc-700 bg-zinc-900 text-zinc-300 hover:bg-zinc-800"
+    }`}
+  >
+    <span className="mr-2">{icon}</span>
+    {children}
+  </button>
+);
   return (
     <form
       onSubmit={handleSubmit}
@@ -509,23 +545,166 @@ export default function GirlForm({ mode = "add" }) {
     />
   </div>
 
-  {/* Available Status */}
-  <div>
-    <label className="mb-1 block text-sm text-zinc-400">
-      Available Status
-    </label>
+ {/* Booking Status */}
 
-    <input
-      name="status_message"
-      value={form.status_message}
-      onChange={handleChange}
-      placeholder="Busy / Available From / Booked..."
-      className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-    />
-  </div>
+<div>
+
+<label className="mb-3 block text-sm text-zinc-400">
+Booking Status
+</label>
+
+<div className="flex flex-wrap gap-3">
+
+<StatusButton
+  icon="🟢"
+  color="bg-green-600"
+  active={form.is_available}
+  onClick={() => {
+    setForm((prev) => ({
+      ...prev,
+      is_available: !prev.is_available,
+      is_busy: false,
+
+      // Nếu tắt Available thì tắt luôn Available From
+      is_available_from: !prev.is_available
+        ? prev.is_available_from
+        : false,
+
+      show_schedule: !prev.is_available
+        ? prev.show_schedule
+        : false,
+    }));
+  }}
+>
+
+Available
+
+</StatusButton>
+
+<StatusButton
+icon="🔴"
+color="bg-red-600"
+active={form.is_busy}
+onClick={()=>{
+setForm(prev=>({
+
+...prev,
+
+is_busy:!prev.is_busy,
+
+is_available:false,
+
+is_available_from:false,
+
+show_schedule: false,
+available_date: "",
+available_time: "",
+
+}))
+}}
+>
+
+Busy
+
+</StatusButton>
+
+<StatusButton
+icon="🕒"
+color="bg-blue-600"
+active={form.is_available_from}
+onClick={()=>{
+setForm(prev=>({
+
+...prev,
+
+is_available_from:!prev.is_available_from,
+
+is_available:true,
+
+is_busy:false,
+
+show_schedule:true
+
+}))
+}}
+>
+
+Available From
+
+</StatusButton>
+
+<StatusButton
+icon="🚗"
+color="bg-orange-500"
+active={form.only_outcall}
+onClick={()=>{
+setForm(prev=>({
+
+...prev,
+
+only_outcall: !prev.only_outcall,
+
+only_incall: false,
+
+is_busy: false,
+
+}))
+}}
+>
+
+Only Outcall
+
+</StatusButton>
+
+<StatusButton
+icon="🏠"
+color="bg-purple-600"
+active={form.only_incall}
+onClick={()=>{
+setForm(prev=>({
+
+...prev,
+
+only_incall:!prev.only_incall,
+
+only_incall: !prev.only_incall,
+
+only_outcall: false,
+
+is_busy: false,
+
+}))
+}}
+>
+
+Only Incall
+
+</StatusButton>
+
+</div>
+
+
+</div>
+ <div>
+
+  <label className="mb-1 block text-sm text-zinc-400">
+      Custom Status (Optional)
+</label>
+
+<input
+  name="status_message"
+  value={form.status_message}
+  onChange={handleChange}
+  placeholder="Ví dụ: Last Slot, Holiday..."
+  className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+/>
+
+</div>     
 
   {/* Show Schedule */}
-  <label className="flex items-center gap-3">
+  {!form.is_busy && (
+
+<label className="flex items-center gap-3">
     <input
       type="checkbox"
       name="show_schedule"
@@ -536,9 +715,9 @@ export default function GirlForm({ mode = "add" }) {
     <span className="text-sm text-zinc-300">
       Show Available Date & Time
     </span>
-  </label>
+  </label>)}
 
-  {form.show_schedule && (
+    {form.show_schedule && (
     <>
       <div>
         <label className="mb-1 block text-sm text-zinc-400">
