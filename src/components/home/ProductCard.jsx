@@ -778,22 +778,25 @@ function formatTime(time) {
     {product?.price || "-"}
   </p>
 
-  {(product?.available_date || product?.available_time) && (
-    <div
-      className="
-        mt-1
-        space-y-1
-        text-[8px]
-        text-zinc-400
+  <div
+  className="
+    mt-1
+    space-y-1
+    text-[8px]
+    text-zinc-400
 
-        sm:mt-2
-        sm:text-sm
-      "
-    >
-      <p className="font-semibold text-zinc-300">
-        Available
-      </p>
+    sm:mt-2
+    sm:text-sm
+  "
+>
+  {product?.status_message && (
+    <p className="font-semibold text-zinc-300">
+      {product.status_message}
+    </p>
+  )}
 
+  {product?.show_schedule && (
+    <>
       {product?.available_time && (
         <p>
           🕒 {formatTime(product.available_time)}
@@ -805,8 +808,9 @@ function formatTime(time) {
           📅 {formatDate(product.available_date)}
         </p>
       )}
-    </div>
+    </>
   )}
+</div>
 </div>
         </div>
       </div>
