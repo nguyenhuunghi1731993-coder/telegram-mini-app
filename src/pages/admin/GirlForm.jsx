@@ -494,68 +494,83 @@ export default function GirlForm({ mode = "add" }) {
 
         <div className="space-y-4">
 
-          <div>
-  <label className="mb-1 block text-sm text-zinc-400">
-    Price
+  {/* Price */}
+  <div>
+    <label className="mb-1 block text-sm text-zinc-400">
+      Price
+    </label>
+
+    <input
+      name="price"
+      value={form.price}
+      onChange={handleChange}
+      placeholder="150"
+      className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+    />
+  </div>
+
+  {/* Available Status */}
+  <div>
+    <label className="mb-1 block text-sm text-zinc-400">
+      Available Status
+    </label>
+
+    <input
+      name="status_message"
+      value={form.status_message}
+      onChange={handleChange}
+      placeholder="Busy / Available From / Booked..."
+      className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+    />
+  </div>
+
+  {/* Show Schedule */}
+  <label className="flex items-center gap-3">
+    <input
+      type="checkbox"
+      name="show_schedule"
+      checked={form.show_schedule}
+      onChange={handleChange}
+    />
+
+    <span className="text-sm text-zinc-300">
+      Show Available Date & Time
+    </span>
   </label>
 
-  <input
-    name="price"
-    value={form.price}
-    onChange={handleChange}
-    placeholder="150"
-    className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-  />
-</div>
+  {form.show_schedule && (
+    <>
+      <div>
+        <label className="mb-1 block text-sm text-zinc-400">
+          Available Date
+        </label>
 
-{/* Available Status */}
-{form.status_message.trim().toLowerCase() === "available from" && (
-  <>
-    <div>
-      <label className="mb-1 block text-sm text-zinc-400">
-        Available Date
-      </label>
-
-      <input
-        type="date"
-        name="available_date"
-        value={form.available_date || ""}
-        onChange={handleChange}
-        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-      />
-    </div>
-
-    <div>
-      <label className="mb-1 block text-sm text-zinc-400">
-        Available Time
-      </label>
-
-      <input
-        type="time"
-        name="available_time"
-        value={form.available_time || ""}
-        onChange={handleChange}
-        className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-      />
-    </div>
-  </>
-)}
-
-            <div>
-              <label className="mb-1 block text-sm text-zinc-400">
-                Available Time
-              </label>
-
-            <input
-              type="time"
-              name="available_time"
-              value={form.available_time || ""}
-              onChange={handleChange}
-              className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
-             />
-          </div>
-
+        <input
+          type="date"
+          name="available_date"
+          value={form.available_date || ""}
+          onChange={handleChange}
+          className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+        />
       </div>
+
+      <div>
+        <label className="mb-1 block text-sm text-zinc-400">
+          Available Time
+        </label>
+
+        <input
+          type="time"
+          name="available_time"
+          value={form.available_time || ""}
+          onChange={handleChange}
+          className="w-full rounded-lg border border-zinc-800 bg-zinc-900 p-3 outline-none focus:border-yellow-500"
+        />
+      </div>
+    </>
+  )}
+
+</div>
 
       </section>
 
