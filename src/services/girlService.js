@@ -57,17 +57,26 @@ export async function updateGirl(id, girl) {
 export async function uploadImage(file) {
   const fileName = `${Date.now()}-${file.name}`;
 
-  const { error } = await supabase.storage
+  const { data, error } = await supabase.storage
     .from("girls")
     .upload(fileName, file);
 
-  if (error) throw error;
+  console.log("========== UPLOAD ==========");
+  console.log("DATA:", data);
+  console.log("ERROR:", error);
 
-  const { data } = supabase.storage
+  if (error) {
+    console.error("UPLOAD ERROR:", error);
+    throw error;
+  }
+
+  const { data: publicData } = supabase.storage
     .from("girls")
     .getPublicUrl(fileName);
 
-  return data.publicUrl;
+  console.log("PUBLIC URL:", publicData.publicUrl);
+
+  return publicData.publicUrl;
 }
 export async function uploadVideo(file) {
   const fileExt = file.name.split(".").pop();
